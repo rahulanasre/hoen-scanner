@@ -1,8 +1,11 @@
 package com.skyscanner;
 
-import io.dropwizard.core.Application;
-import io.dropwizard.core.setup.Bootstrap;
-import io.dropwizard.core.setup.Environment;
+import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HoenScannerApplication extends Application<HoenScannerConfiguration> {
 
@@ -17,12 +20,22 @@ public class HoenScannerApplication extends Application<HoenScannerConfiguration
 
     @Override
     public void initialize(final Bootstrap<HoenScannerConfiguration> bootstrap) {
-
+        // nothing to do here
     }
 
     @Override
-    public void run(final HoenScannerConfiguration configuration, final Environment environment) {
+    public void run(final HoenScannerConfiguration configuration,
+                    final Environment environment) {
 
+        List<SearchResult> searchResults = new ArrayList<>();
+
+        searchResults.add(new SearchResult("Delhi", "Taj Mahal", "HOTEL"));
+        searchResults.add(new SearchResult("Delhi", "Red Fort", "ATTRACTION"));
+        searchResults.add(new SearchResult("Mumbai", "Gateway of India", "ATTRACTION"));
+        searchResults.add(new SearchResult("Mumbai", "Taj Hotel", "HOTEL"));
+
+        environment.jersey().register(
+                new SearchResource(searchResults)
+        );
     }
-
 }
